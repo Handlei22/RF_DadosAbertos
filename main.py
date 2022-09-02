@@ -11,7 +11,7 @@ def main():
 
     while d.running:
         print(f'\r{int(d.size / 1024)}/{int(d.received / 1024)}', end='')
-    print('End.')
+    print('End!')
 
 
 if __name__ == '__main__':

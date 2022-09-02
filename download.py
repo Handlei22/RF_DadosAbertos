@@ -111,4 +111,3 @@ class Download(threading.Thread):
         if self.headers.get('Range'):
             _s = self.headers.get('Range')
             self.size = int(_s[_s.find('-') + 1:]) - int(_s[_s.find('=') + 1:_s.find('-')])
-
