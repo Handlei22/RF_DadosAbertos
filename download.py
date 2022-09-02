@@ -1,6 +1,7 @@
 import threading
 import requests
-import os, glob
+import os
+import glob
 import time
 from pathlib import Path
 
