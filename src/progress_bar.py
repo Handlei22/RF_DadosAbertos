@@ -29,4 +29,13 @@ class ProgressBar:
         self.percentage = percent
 
     def __mountBarStr(self, percent):
-        return str(f'\r{str(percent).zfill(3)}%|\033[43m{" " * percent}\033[0m\033[33m{"." * (100 - percent)}\033[0m|{self.desc}')
+        p = str(percent).zfill(3)+'%'
+        barl = ''
+        bart = ''
+        if percent < 4:
+            barl = "." * percent
+            bart = p+("." * (100 - (percent+4)))
+        elif percent >= 4:
+            barl = ("." * (percent-4))+p
+            bart = "." * (100 - percent)
+        return str(f'|\033[43m\033[30m{barl}\033[0m\033[33m{bart}\033[0m|{self.desc}|{self.position}/{self.size}')

@@ -11,4 +11,4 @@ def banner():
     print(f'{Fore.YELLOW}Author: {AUTHOR}')
     print(f'{Fore.YELLOW}Version: {VERSION}')
     print('\n[!] CNPJ DOWNLOADER is a script to assist in downloading the entire CNPJ structure provided by RECEITA FEDERAL.')
-    print('\n--------------------------------------------------------------------\n\n')
+    print(f'\n{"-" * 70}\n\n')

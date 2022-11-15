@@ -1,6 +1,6 @@
 import threading
 import time
-
+from random import randint
 import requests
 import os
 import glob
@@ -51,13 +51,17 @@ class Downloader(threading.Thread):
             for th in self.__parts:
                 _p: _DownloadPart = th
                 _received += _p.download.received
-            self.received = _received
 
+            self.received = _received
+            # if self.received >= self.size:
+            #     break
+            _received = 0
             if not any([th.download.running for th in self.__parts]):
-            #     for th in self.__parts:
-            #         _p: _DownloadPart = th
-            #         _received += _p.download.received
-            #     self.received = _received
+                for th in self.__parts:
+                    _p: _DownloadPart = th
+                    _received += _p.download.received
+
+                self.received = _received
                 break
 
         for th in self.__parts:
@@ -65,8 +69,8 @@ class Downloader(threading.Thread):
             with open(self._filename, 'ab') as fs:
                 with open(_p.filename, 'rb') as fp:
                     fs.write(fp.read())
-                    fs.flush()
-                    os.fsync(fs.fileno())
+                    # fs.flush()
+                    # os.fsync(fs.fileno())
 
         self.removeFilesTmp()
 
@@ -107,14 +111,14 @@ class Download(threading.Thread):
         with requests.get(self.__url, stream=True, headers=headers) as r:
             Path(self.filename).parent.mkdir(parents=True, exist_ok=True)
             with open(f"{self.filename}", mode_file) as file:
-                chunk_size = 8192
+                chunk_size = 65536
                 for i, chunk in enumerate(r.iter_content(chunk_size=chunk_size)):
                     if chunk:
                         self.received += len(chunk)
                         file.write(chunk)
                         file.flush()
                         os.fsync(file.fileno())
-                    time.sleep(0.1)
+                    time.sleep(randint(1, 5))
         self.running = False
 
     def getHeaderRange(self):
